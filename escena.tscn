@@ -1,0 +1,95 @@
+[gd_scene format=3 uid="uid://b2hcp5nsyutp2"]
+
+[ext_resource type="Script" uid="uid://b8lsgygxge5f2" path="res://character_body_2d.gd" id="1_ugwex"]
+[ext_resource type="Texture2D" uid="uid://bfewmtp1uwsfx" path="res://icon.svg" id="2_sks45"]
+[ext_resource type="PackedScene" uid="uid://cva6ewmjcjie6" path="res://plataforma.tscn" id="3_sks45"]
+[ext_resource type="Script" uid="uid://ccly6hksdlr2c" path="res://enemigo.gd" id="4_fanfj"]
+[ext_resource type="Script" uid="uid://b31dvo3tg4ej2" path="res://sprite_2d.gd" id="5_d4yc1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lfkbx"]
+size = Vector2(2.5, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aui74"]
+size = Vector2(1, 3)
+
+[sub_resource type="Animation" id="Animation_d4yc1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(66, -15)]
+}
+
+[sub_resource type="Animation" id="Animation_ssasw"]
+resource_name = "new_animation"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.0333333, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(200, -315), Vector2(396, -315), Vector2(200, -315)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_77l53"]
+_data = {
+&"RESET": SubResource("Animation_d4yc1"),
+&"new_animation": SubResource("Animation_ssasw")
+}
+
+[node name="Escena" type="Node2D" unique_id=785144324]
+
+[node name="Personaje" type="CharacterBody2D" parent="." unique_id=616655726]
+script = ExtResource("1_ugwex")
+
+[node name="Sprite2D" type="Sprite2D" parent="Personaje" unique_id=1421067558]
+position = Vector2(-26.25, -9)
+scale = Vector2(0.019531267, 0.031250007)
+texture = ExtResource("2_sks45")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Personaje" unique_id=564076507]
+position = Vector2(-26.25, -9)
+shape = SubResource("RectangleShape2D_lfkbx")
+
+[node name="Camera2D" type="Camera2D" parent="Personaje" unique_id=1842178374]
+zoom = Vector2(5, 5)
+
+[node name="Plataforma" parent="." unique_id=486160645 instance=ExtResource("3_sks45")]
+
+[node name="Enemigo" type="CharacterBody2D" parent="." unique_id=43404942]
+script = ExtResource("4_fanfj")
+
+[node name="Sprite2D" type="Sprite2D" parent="Enemigo" unique_id=1261600384]
+position = Vector2(19.5, -7.5000005)
+scale = Vector2(0.007812506, 0.023437494)
+texture = ExtResource("2_sks45")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemigo" unique_id=1951056249]
+position = Vector2(19.5, -7.5)
+shape = SubResource("RectangleShape2D_aui74")
+
+[node name="RayCastIzquierda2D" type="RayCast2D" parent="Enemigo" unique_id=1487064151]
+position = Vector2(19, -8)
+scale = Vector2(0.2, 0.2)
+target_position = Vector2(-5, 0)
+
+[node name="RocaFlotante" type="Sprite2D" parent="." unique_id=843363625]
+position = Vector2(66, -15)
+scale = Vector2(0.046875, 0.0625)
+texture = ExtResource("2_sks45")
+script = ExtResource("5_d4yc1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="RocaFlotante" unique_id=1419265909]
+libraries/ = SubResource("AnimationLibrary_77l53")
